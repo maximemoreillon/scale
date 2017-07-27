@@ -35,7 +35,7 @@ long last_sample_time;
 float weight_buffer[WEIGHT_BUFFER_SIZE];
 
 #define UPLOAD_MINIMUM_WEIGHT 5 // [kg]
-#define UPLOAD_MAXIMUM_WEIGHT_RANGE 0.6
+#define UPLOAD_MAXIMUM_WEIGHT_RANGE 0.6 // [kg]
 
 // Display
 SSD1306 display(0x3c, DISPLAY_SDA_PIN, DISPLAY_SCL_PIN);

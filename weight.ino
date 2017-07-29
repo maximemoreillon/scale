@@ -2,15 +2,7 @@ float get_weight() {
   // Reads HX711 output and convert to kg
 
   float hx711_raw = hx711.read();
-  float weight_hg = map(hx711_raw, MAPPING_RAW_LOW, MAPPING_RAW_HIGH, MAPPING_HG_LOW, MAPPING_HG_HIGH);
-  float weight_kg = weight_hg/10.00;
-
-  Serial.print("HX711 raw output: ");
-  Serial.print(hx711_raw);
-  Serial.print(" ,mapped output: ");
-  Serial.print(weight_hg);
-  Serial.print(" ,weight kg: ");
-  Serial.println(weight_kg);
+  float weight_kg = map(hx711_raw, MAPPING_RAW_LOW, MAPPING_RAW_HIGH, MAPPING_HG_LOW, MAPPING_HG_HIGH)/10.00; // conversion to hectogram and then kg, can't seem to map direclty
 
   return constrain(weight_kg,0.00,200.00);;
 }
@@ -43,13 +35,6 @@ float get_range(){
       buffer_min = weight_buffer[i];
     }
   }
-
-  Serial.print("buffer min:");
-  Serial.print(buffer_min);
-  Serial.print(", max: ");
-  Serial.print(buffer_max);
-  Serial.print(", range:");
-  Serial.println(buffer_max-buffer_min);
 
   return  buffer_max-buffer_min;
 }

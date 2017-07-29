@@ -26,7 +26,7 @@ WiFiClient wifi_client;
 #define HX711_SCL_PIN D1
 
 Q2HX711 hx711(HX711_DT_PIN, HX711_SCL_PIN);
-float weight;
+float weight; // [kg]
 
 long last_sample_time;
 #define SAMPLING_PERIOD 100 // [ms]
@@ -57,23 +57,21 @@ void setup() {
   Serial.begin(115200);
   Serial.println();
   Serial.println(); // Separate serial stream from initial gibberish
-  Serial.println(F(__FILE__ " " __DATE__ " " __TIME__));
+  Serial.println(F(__FILE__ " " __DATE__ " " __TIME__)); // Print the sketch information
 
-  display_setup();
+  // Initialization
   wifi_setup();
   OTA_setup();
   ThingSpeak.begin(wifi_client);
-
+  display_setup();
+  display_nothing();
 }
 
 void loop() {
   ArduinoOTA.handle();
 
-  
-
-  // Display management
   if(WiFi.status() != WL_CONNECTED){
-    // Wifi disconnected
+    // Wifi disconnected: display connecting
 
     if(wifi_connected){
       wifi_connected = false;
@@ -98,7 +96,7 @@ void loop() {
     
 
       if (weight > UPLOAD_MINIMUM_WEIGHT) {
-        // Wifi connected, weight above threshold
+        // Wifi connected, weight above threshold: display weight
   
         if(!weight_above_threshold){
           weight_above_threshold = true;
@@ -112,7 +110,7 @@ void loop() {
           }
         }
         else {
-          //  Wifi connected, weight above threshold and stable
+          //  Wifi connected, weight above threshold and stable: upload to thingspeak
   
           if(!uploading){
             uploading = true;
@@ -127,7 +125,7 @@ void loop() {
         }
       }
       else {
-        // Wifi connected, weight below threshold
+        // Wifi connected, weight below threshold: display nothing
   
         if(weight_above_threshold){
           weight_above_threshold = false;

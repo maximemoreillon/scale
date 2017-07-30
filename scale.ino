@@ -64,6 +64,7 @@ void setup() {
   OTA_setup();
   ThingSpeak.begin(wifi_client);
   display_setup();
+  delay(10);
   display_nothing();
 }
 
@@ -125,7 +126,7 @@ void loop() {
         }
       }
       else {
-        // Wifi connected, weight below threshold: display nothing
+        // Wifi connected, weight below threshold: display nothing to prevent display burn in
   
         if(weight_above_threshold){
           weight_above_threshold = false;

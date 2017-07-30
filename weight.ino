@@ -40,7 +40,7 @@ float get_range(){
 }
 
 
-String get_weight_string(int weight_int){
+String get_weight_string(){
   // Convert weight to a String
 
   int weightWhole = int(weight);

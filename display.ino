@@ -3,6 +3,8 @@ void display_setup() {
   
   display.init();
   display.flipScreenVertically();
+  display.setFont(Roboto_48);
+  display.setTextAlignment(TEXT_ALIGN_CENTER);
 }
 
 void display_nothing(){
@@ -11,6 +13,9 @@ void display_nothing(){
   display.clear();
   display.display();
 }
+
+
+
 void display_weight() {
   // Display weight in the middle of the screen
   
@@ -19,9 +24,7 @@ void display_weight() {
   if(weight != last_weight){
     last_weight = weight;
     display.clear();
-    display.setTextAlignment(TEXT_ALIGN_CENTER);
-    display.setFont(Roboto_48);
-    display.drawString(DISPLAY_WIDTH / 2, 0, get_weight_string(weight));
+    display.drawString(DISPLAY_WIDTH / 2, 0, get_weight_string());
     display.display();
   }
 }
@@ -39,22 +42,16 @@ void display_upload_success(){
   
   const int blinking_delay = 500;
   
-  display.setTextAlignment(TEXT_ALIGN_CENTER);
-  display.setFont(Roboto_48);
-  
   for(int i=0; i<10; i++){
     display.clear();
     display.drawXbm(0,0, IMAGES_WIDTH, IMAGES_HEIGHT, uploaded_image);
     display.display();
     delay(blinking_delay);
     display.clear();
-    display.drawString(DISPLAY_WIDTH / 2, 0, get_weight_string(weight));
+    display.drawString(DISPLAY_WIDTH / 2, 0, get_weight_string());
     display.display();
     delay(blinking_delay);
   }
-
-  display.clear();
-  display.display();
 }
 
 void display_upload_fail(){
@@ -107,8 +104,7 @@ void display_connected(){
   display.drawXbm(0,0, IMAGES_WIDTH, IMAGES_HEIGHT, wifi_ok);
   display.display();
   delay(2000);
-  display.clear();
-  display.display();
+  display_nothing();
 }
 
 

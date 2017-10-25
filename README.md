@@ -1,6 +1,8 @@
 # scale
 Wifi enabled scale that uploads the user's weight to Thingspeak.
 
+Note to people intending to make their own: Choose more appropriate pins for the display. Most libraries use different pins than the ones I chose.
+
 ## Video:
 [![Alt text](https://img.youtube.com/vi/msVoXorvrb0/0.jpg)](https://www.youtube.com/watch?v=msVoXorvrb0)
 

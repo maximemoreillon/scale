@@ -1,3 +1,11 @@
+/*
+ * WIFI SCALE
+ * Maxime MOREILLON
+ * 
+ * Board type: Wemos D1 mini
+ */
+
+
 #include <ESP8266WiFi.h>
 #include <Q2HX711.h>
 #include "SSD1306.h"

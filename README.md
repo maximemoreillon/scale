@@ -12,11 +12,9 @@ Wifi enabled scale that uploads the user's weight to Thingspeak.
 * [esp8266-oled-ssd1306](https://github.com/squix78/esp8266-oled-ssd1306)
 
 ## Calibration
-Calibration is done using the MAPPING_RAW_LOW, MAPPING_RAW_HIGH, MAPPING_HG_LOW and MAPPING_HG_HIGH defines in scale_config.h.
-
-MAPPING_RAW_LOW is the raw reading of the HX711 when MAPPING_HG_LOW hectograms are on the scale.
-
-MAPPING_RAW_HIGH is the raw reading of the HX711 when MAPPING_HG_HIGH hectograms are on the scale.
+Calibration is done using the MAPPING_RAW_LOW, MAPPING_RAW_HIGH, MAPPING_HG_LOW and MAPPING_HG_HIGH defines in scale_config.h such that:
+* MAPPING_RAW_LOW is the raw reading of the HX711 when MAPPING_HG_LOW hectograms are on the scale.
+* MAPPING_RAW_HIGH is the raw reading of the HX711 when MAPPING_HG_HIGH hectograms are on the scale.
 
 ## Hardware
 

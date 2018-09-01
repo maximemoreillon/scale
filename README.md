@@ -24,6 +24,6 @@ Calibration is done using the MAPPING_RAW_LOW, MAPPING_RAW_HIGH, MAPPING_HG_LOW 
 * SSD1306 OLED display
 
 ### Schematic
-![alt text](https://moreillon.duckdns.org/projects/iot/images/scale_schematic.png)
+![alt text](http://maximemoreillon.com/images/projects/iot/scale/scale_schematic.png)
 
 

@@ -1,4 +1,4 @@
-const char Roboto_48[] PROGMEM = {
+const uint8_t Roboto_48[] PROGMEM = {
 	0x2C, // Width: 44
 	0x39, // Height: 57
 	0x20, // First Char: 32

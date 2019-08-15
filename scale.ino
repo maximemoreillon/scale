@@ -12,7 +12,10 @@
 #include <ESP8266mDNS.h>
 #include <WiFiUdp.h> // Required for OTA
 #include <ArduinoOTA.h> // OTA updates
-#include <ThingSpeak.h>
+#include <ArduinoJson.h>
+#include <ESP8266HTTPClient.h>
+#include <WiFiClient.h>
+#include <ESP8266WebServer.h>
 
 // Credentials and parameters
 #include "credentials.h"
@@ -24,8 +27,10 @@
 // OTA
 #define HOSTNAME "scale"
 
-// Wifi
-WiFiClient wifi_client;
+// API
+#define API_URL "http://192.168.1.2:8085/weight/api"
+
+#define WWW_PORT 80
 
 // Pin mapping
 #define DISPLAY_SDA_PIN D5
@@ -33,17 +38,24 @@ WiFiClient wifi_client;
 #define HX711_DT_PIN D2
 #define HX711_SCL_PIN D1
 
+// Weight
+#define SAMPLING_PERIOD 100 // [ms]
+#define WEIGHT_BUFFER_SIZE 30
+#define UPLOAD_MINIMUM_WEIGHT 5 // [kg]
+#define UPLOAD_MAXIMUM_WEIGHT_RANGE 0.6 // [kg]
+
+// Wifi
+WiFiClient wifi_client;
+ESP8266WebServer web_server(WWW_PORT);
 Q2HX711 hx711(HX711_DT_PIN, HX711_SCL_PIN);
+
 float weight; // [kg]
 
 long last_sample_time;
-#define SAMPLING_PERIOD 100 // [ms]
 
-#define WEIGHT_BUFFER_SIZE 30
 float weight_buffer[WEIGHT_BUFFER_SIZE];
 
-#define UPLOAD_MINIMUM_WEIGHT 5 // [kg]
-#define UPLOAD_MAXIMUM_WEIGHT_RANGE 0.6 // [kg]
+
 
 // Display
 SSD1306 display(0x3c, DISPLAY_SDA_PIN, DISPLAY_SCL_PIN);
@@ -70,7 +82,7 @@ void setup() {
   // Initialization
   wifi_setup();
   OTA_setup();
-  ThingSpeak.begin(wifi_client);
+  web_server_setup();
   display_setup();
   delay(10);
   display_nothing();
@@ -78,7 +90,8 @@ void setup() {
 
 void loop() {
   ArduinoOTA.handle();
-
+  web_server.handleClient();
+  
   if(WiFi.status() != WL_CONNECTED){
     // Wifi disconnected: display connecting
 
@@ -124,7 +137,8 @@ void loop() {
           if(!uploading){
             uploading = true;
             display_uploading();
-            if(upload_weight()){
+            
+            if(upload_weight_home()){
               display_upload_success();
             }
             else{

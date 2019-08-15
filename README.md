@@ -1,5 +1,5 @@
 # scale
-Wifi enabled scale that uploads the user's weight to Thingspeak.
+Wifi enabled scale that uploads the user's weight to the cloud.
 
 **Note to people intending to make their own:** Choose the pins for the display carefully. Some libraries require specific pins to be used.
 

@@ -1,4 +1,4 @@
-boolean upload_weight_home(){
+boolean upload_weight(){
   // Create a JSON payload
   StaticJsonDocument<200> outbound_JSON_message;
 
@@ -10,11 +10,20 @@ boolean upload_weight_home(){
   Serial.print(F("[HTTP] Outbound payload: "));
   serializeJson(outbound_JSON_message, Serial);
 
-  // Sending the payload using HTTP POST request
+  // Preparing HTTPS
+  std::unique_ptr<BearSSL::WiFiClientSecure>client(new BearSSL::WiFiClientSecure);
+  client->setInsecure();
+
+  // Sending the payload using HTTP POST request 
   HTTPClient http;
-  http.begin(API_URL);
-  //http.setTimeout(3000); // Probably ms
-  http.addHeader("Content-Type", "application/json");
+  //http.begin(API_URL);
+  http.begin(*client, API_URL);
+  http.setTimeout(3000); // Probably ms
+
+  //Set headers
+  http.addHeader("Content-Type", "application/json"); // Specify the content type
+  http.addHeader("Authorization", String("Bearer ") + String(API_TOKEN) );
+  
   int httpCode = http.POST(JSONmessageBuffer);
   http.end();
 

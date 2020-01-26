@@ -14,6 +14,7 @@
 #include <ArduinoOTA.h> // OTA updates
 #include <ArduinoJson.h>
 #include <ESP8266HTTPClient.h>
+#include <WiFiClientSecureBearSSL.h>
 #include <WiFiClient.h>
 #include <ESP8266WebServer.h>
 
@@ -26,9 +27,6 @@
 
 // OTA
 #define HOSTNAME "scale"
-
-// API
-#define API_URL "http://192.168.1.2:8085/weight/api"
 
 #define WWW_PORT 80
 
@@ -45,7 +43,6 @@
 #define UPLOAD_MAXIMUM_WEIGHT_RANGE 0.6 // [kg]
 
 // Wifi
-WiFiClient wifi_client;
 ESP8266WebServer web_server(WWW_PORT);
 Q2HX711 hx711(HX711_DT_PIN, HX711_SCL_PIN);
 
@@ -138,7 +135,7 @@ void loop() {
             uploading = true;
             display_uploading();
             
-            if(upload_weight_home()){
+            if(upload_weight()){
               display_upload_success();
             }
             else{

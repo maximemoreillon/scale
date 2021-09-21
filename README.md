@@ -1,6 +1,8 @@
 # scale
 Wifi enabled scale that uploads the user's weight to the cloud.
 
+Project page: https://articles.maximemoreillon.com/articles/160
+
 **Note to people intending to make their own:** Choose the pins for the display carefully. Some libraries require specific pins to be used.
 
 ## Video:
@@ -22,8 +24,3 @@ Calibration is done using the MAPPING_RAW_LOW, MAPPING_RAW_HIGH, MAPPING_HG_LOW 
 * Wemos D1 Mini
 * HX711 load cell amplifier
 * SSD1306 OLED display
-
-### Schematic
-![alt text](http://maximemoreillon.com/images/projects/iot/scale/scale_schematic.png)
-
-

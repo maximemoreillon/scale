@@ -24,7 +24,7 @@ const String nav = "<div class='nav'>"
   "</div>";
   
 const String footer= "<div class='footer'>"
-  "<img src='https://maximemoreillon.com/images/logo/logo.png'>"
+  "<img src='https://cdn.maximemoreillon.com/logo/logo.png'>"
   "  <div>"
   "    <div>Scale firmware v2.0</div>"
   "    <div>Maxime Moreillon</div>"
@@ -43,7 +43,7 @@ String head ="<head>"
   "<title>" + String(HOSTNAME) +"</title>"
   + styles +
   "<meta name='viewport' content='width=device-width, initial-scale=1.0'>"
-  "<link rel='stylesheet' type='text/css' href='http://maximemoreillon.com/web_components/master_css/master.css'>"
+  "<link rel='stylesheet' type='text/css' href='http://cdn.maximemoreillon.com/master_css/master.css'>"
   "</head>";
 
 String pre_main = "<html>"

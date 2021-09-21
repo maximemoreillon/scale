@@ -93,6 +93,7 @@ void loop() {
     // Wifi disconnected: display connecting
 
     if(wifi_connected){
+      Serial.println("[Wifi] Disconnected");
       wifi_connected = false;
     }
 
@@ -104,6 +105,7 @@ void loop() {
 
     if(!wifi_connected){
       wifi_connected = true;
+      Serial.println("[Wifi] Connected");
       display_connected();
     }
 

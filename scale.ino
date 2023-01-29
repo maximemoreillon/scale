@@ -5,18 +5,13 @@
  * Board type: Wemos D1 mini
  */
 
+#include "IotKernel.h"
 
-#include <ESP8266WiFi.h>
 #include <Q2HX711.h>
 #include "SSD1306.h"
-#include <ESP8266mDNS.h>
-#include <WiFiUdp.h> // Required for OTA
-#include <ArduinoOTA.h> // OTA updates
-#include <ArduinoJson.h>
 #include <ESP8266HTTPClient.h>
 #include <WiFiClientSecureBearSSL.h>
 #include <WiFiClient.h>
-#include <ESP8266WebServer.h>
 
 // Credentials and parameters
 #include "credentials.h"
@@ -25,10 +20,6 @@
 #include "font.h"
 #include "images.h"
 
-// OTA
-#define HOSTNAME "scale"
-
-#define WWW_PORT 80
 
 // Pin mapping
 #define DISPLAY_SDA_PIN D5
@@ -42,8 +33,12 @@
 #define UPLOAD_MINIMUM_WEIGHT 5 // [kg]
 #define UPLOAD_MAXIMUM_WEIGHT_RANGE 0.6 // [kg]
 
-// Wifi
-ESP8266WebServer web_server(WWW_PORT);
+// Display
+#define DISPLAY_WIDTH 128
+#define DISPLAY_HEIGHT 64
+
+IotKernel iot_kernel("scale","0.0.3"); 
+
 Q2HX711 hx711(HX711_DT_PIN, HX711_SCL_PIN);
 
 float weight; // [kg]
@@ -56,10 +51,9 @@ float weight_buffer[WEIGHT_BUFFER_SIZE];
 
 // Display
 SSD1306 display(0x3c, DISPLAY_SDA_PIN, DISPLAY_SCL_PIN);
-#define DISPLAY_WIDTH 128
-#define DISPLAY_HEIGHT 64
 
-// Scale states
+
+// States
 boolean wifi_connected = false;
 boolean weight_above_threshold = false;
 boolean uploading = false;
@@ -67,28 +61,17 @@ boolean uploading = false;
 
 void setup() {
 
-  // Mandatory initial delay
-  delay(10);
+  iot_kernel.init();
 
-  // Serial init
-  Serial.begin(115200);
-  Serial.println();
-  Serial.println(); // Separate serial stream from initial gibberish
-  Serial.println(F(__FILE__ " " __DATE__ " " __TIME__)); // Print the sketch information
-
-  // Initialization
-  wifi_setup();
-  OTA_setup();
-  web_server_setup();
   display_setup();
   delay(10);
   display_nothing();
 }
 
 void loop() {
-  ArduinoOTA.handle();
-  web_server.handleClient();
-  
+
+   iot_kernel.loop();
+
   if(WiFi.status() != WL_CONNECTED){
     // Wifi disconnected: display connecting
 

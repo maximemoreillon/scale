@@ -9,16 +9,9 @@
 
 #include <Q2HX711.h>
 #include "SSD1306.h"
-#include <ESP8266HTTPClient.h>
-#include <WiFiClientSecureBearSSL.h>
-#include <WiFiClient.h>
-
-// Credentials and parameters
-#include "credentials.h"
-#include "scale_config.h"
-
 #include "font.h"
 #include "images.h"
+#include "scale_config.h"
 
 
 // Pin mapping
@@ -37,7 +30,7 @@
 #define DISPLAY_WIDTH 128
 #define DISPLAY_HEIGHT 64
 
-IotKernel iot_kernel("scale","0.0.3"); 
+IotKernel iot_kernel("scale","0.2.0"); 
 
 Q2HX711 hx711(HX711_DT_PIN, HX711_SCL_PIN);
 
@@ -114,13 +107,14 @@ void loop() {
           }
         }
         else {
-          //  Wifi connected, weight above threshold and stable: upload to thingspeak
+          //  Wifi connected, weight above threshold and stable: send weight to server
   
           if(!uploading){
             uploading = true;
             display_uploading();
+
             
-            if(upload_weight()){
+            if(publish_weight()){
               display_upload_success();
             }
             else{
